@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://8nlmefb3i6kn"]
+
+[ext_resource type="Script" uid="uid://bpegj6x1kqdkf" path="res://scripts/hud.gd" id="1_37p78"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_37p78")
+
+[node name="Bars" type="VBoxContainer" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 60.0
+
+[node name="HealthBar" type="ProgressBar" parent="Bars"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+value = 100.0
+
+[node name="WarmthBar" type="ProgressBar" parent="Bars"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+value = 100.0
+
+[node name="HungerBar" type="ProgressBar" parent="Bars"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+value = 100.0
+
+[node name="ThirstBar" type="ProgressBar" parent="Bars"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+value = 100.0

@@ -1,0 +1,135 @@
+[gd_scene load_steps=20 format=3 uid="uid://b1tqxqi4ghquy"]
+
+[ext_resource type="PackedScene" uid="uid://gsht45rogopp" path="res://scenes/Player.tscn.tscn" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://bloycovvtwcg3" path="res://scripts/main.gd" id="1_r0du0"]
+[ext_resource type="Script" uid="uid://c8uqcneflf51w" path="res://scripts/main_camera.gd" id="2_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://8nlmefb3i6kn" path="res://hud.tscn" id="2_uu6xs"]
+[ext_resource type="Script" uid="uid://c0071c826yblh" path="res://scripts/campfire.gd" id="5_fos0i"]
+[ext_resource type="Script" uid="uid://dlv8hu7obatgb" path="res://scripts/water_source.gd" id="6_3dxm6"]
+[ext_resource type="Script" uid="uid://dpt7bw0h3m20k" path="res://scripts/food_source.gd" id="7_lgr22"]
+[ext_resource type="PackedScene" uid="uid://cvgbo01nl2csf" path="res://tree.tscn" id="8_trn2v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgr22"]
+albedo_color = Color(0.9466565, 0.9999998, 0.9998242, 1)
+roughness = 0.8
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rxg2q"]
+size = Vector2(200, 200)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lgr22"]
+sky_top_color = Color(0.66348237, 0.72270095, 0.80195594, 1)
+sky_horizon_color = Color(0.5894154, 0.59768975, 0.61424273, 1)
+ground_horizon_color = Color(0.7868001, 0.7923599, 0.8034725, 1)
+
+[sub_resource type="Sky" id="Sky_trn2v"]
+sky_material = SubResource("ProceduralSkyMaterial_lgr22")
+
+[sub_resource type="Environment" id="Environment_glv2v"]
+background_mode = 2
+sky = SubResource("Sky_trn2v")
+ambient_light_source = 3
+ambient_light_energy = 0.4
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.6893567, 0.8708547, 0.9613218, 1)
+fog_density = 0.03
+fog_depth_begin = 20.0
+fog_depth_end = 150.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_fos0i"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fos0i"]
+radius = 3.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lgr22"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_trn2v"]
+radius = 3.357
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3dxm6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lgr22"]
+radius = 3.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_r0du0")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.897381, 0.93234825, 0.03526783)
+material_override = SubResource("StandardMaterial3D_lgr22")
+mesh = SubResource("PlaneMesh_rxg2q")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, -0.7071068, 0, 0.7071068, 0.7071068, 12.331646, 20.727522, 13.692282)
+light_color = Color(1, 0.84598386, 0.7679135, 1)
+light_energy = 1.5
+
+[node name="MainCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 8, 15)
+current = true
+script = ExtResource("2_cm0pq")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_glv2v")
+
+[node name="Player" parent="." instance=ExtResource("1_glv2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="HUD" parent="." instance=ExtResource("2_uu6xs")]
+
+[node name="Campfire" type="Node3D" parent="."]
+script = ExtResource("5_fos0i")
+
+[node name="Firemesh" type="MeshInstance3D" parent="Campfire"]
+transform = Transform3D(1.4812323, 0, 0.2365391, 0, 1.5, 0, -0.2365391, 0, 1.4812323, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_fos0i")
+
+[node name="WarmArea" type="Area3D" parent="Campfire"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Campfire/WarmArea"]
+shape = SubResource("CylinderShape3D_fos0i")
+
+[node name="watersource" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.0176792, 0)
+script = ExtResource("6_3dxm6")
+
+[node name="WaterMesh" type="MeshInstance3D" parent="watersource"]
+transform = Transform3D(2, 0, 0, 0, 0.1, 0, 0, 0, 2, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_lgr22")
+
+[node name="DrinkArea" type="Area3D" parent="watersource"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="watersource/DrinkArea"]
+shape = SubResource("SphereShape3D_trn2v")
+
+[node name="FoodSource" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+script = ExtResource("7_lgr22")
+
+[node name="FoodMesh" type="MeshInstance3D" parent="FoodSource"]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_3dxm6")
+
+[node name="EatArea" type="Area3D" parent="FoodSource"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FoodSource/EatArea"]
+shape = SubResource("SphereShape3D_lgr22")
+
+[node name="Tree" parent="." instance=ExtResource("8_trn2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 5)
+
+[node name="Tree4" parent="." instance=ExtResource("8_trn2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -5)
+
+[node name="Tree2" parent="." instance=ExtResource("8_trn2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 4)
+
+[node name="Tree3" parent="." instance=ExtResource("8_trn2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
+
+[connection signal="body_entered" from="Campfire/WarmArea" to="Campfire" method="_on_warm_area_body_entered"]
+[connection signal="body_exited" from="Campfire/WarmArea" to="Campfire" method="_on_warm_area_body_exited"]
+[connection signal="body_entered" from="watersource/DrinkArea" to="watersource" method="_on_drink_area_body_entered"]
+[connection signal="body_exited" from="watersource/DrinkArea" to="watersource" method="_on_drink_area_body_exited"]
+[connection signal="body_entered" from="FoodSource/EatArea" to="FoodSource" method="_on_eat_area_body_entered"]
+[connection signal="body_exited" from="FoodSource/EatArea" to="FoodSource" method="_on_eat_area_body_exited"]
