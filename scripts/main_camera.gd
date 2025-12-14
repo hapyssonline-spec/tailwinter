@@ -32,8 +32,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Вращение камеры при зажатой правой кнопке мыши
 	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		var motion := event as InputEventMouseMotion
-		yaw   -= motion.relative.x * mouse_sensitivity
-		pitch -= motion.relative.y * mouse_sensitivity
+            yaw   -= motion.relative.x * mouse_sensitivity
+            pitch += motion.relative.y * mouse_sensitivity
 
 		# Ограничиваем наклон, чтобы камера не уходила под землю/над головой
 		pitch = clamp(pitch, deg_to_rad(-70.0), deg_to_rad(-10.0))
