@@ -8,13 +8,17 @@ extends Node3D
 @onready var player: Node3D = $Player
 @onready var hud            = $HUD
 
+func _ready() -> void:
+        if player.has_signal("active_campfire_changed"):
+                player.connect("active_campfire_changed", Callable(hud, "set_active_campfire"))
+
 # Параметры цикла день/ночь
 @export var day_length: float = 120.0  # длительность "суток" в секундах
 var time_of_day: float = 0.25          # 0..1 (0 - рассвет, 0.5 - день, ~0.75 - ночь)
 
 func _process(delta: float) -> void:
-	# Обновляем день/ночь
-	_update_day_night(delta)
+        # Обновляем день/ночь
+        _update_day_night(delta)
 
 	# Обновляем HUD статами игрока
 	hud.update_stats(
