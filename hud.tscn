@@ -30,3 +30,24 @@ value = 100.0
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 value = 100.0
+
+[node name="DebugPanel" type="VBoxContainer" parent="."]
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 60.0
+offset_bottom = 160.0
+theme_override_constants/separation = 4
+visible = false
+
+[node name="FuelTitle" type="Label" parent="DebugPanel"]
+layout_mode = 2
+text = "Campfire Fuel"
+
+[node name="FuelBar" type="ProgressBar" parent="DebugPanel"]
+custom_minimum_size = Vector2(220, 22)
+layout_mode = 2
+value = 0.0
+
+[node name="FuelValue" type="Label" parent="DebugPanel"]
+layout_mode = 2
+text = "Нет костра"
