@@ -8,17 +8,11 @@ func _process(delta: float) -> void:
 	if player_in_range == null:
 		return
 
-	# Пытаемся увеличить warmth у объекта, если у него есть такое свойство
-	if player_in_range.has_method("_update_stats"):
-		# если бы нужно было что-то особенное
-		pass
-
-	# Прямо обращаемся к переменной warmth (наш Player её имеет)
-	if "warmth" in player_in_range:
-		player_in_range.warmth = min(
-			100.0,
-			player_in_range.warmth + warmth_restore_rate * delta
-		)
+	# Игрок уже отфильтрован в событиях Area3D, поэтому можно напрямую работать с полем warmth
+	player_in_range.warmth = min(
+		100.0,
+		player_in_range.warmth + warmth_restore_rate * delta
+	)
 
 
 func _on_warm_area_body_entered(body: Node) -> void:
