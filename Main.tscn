@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1tqxqi4ghquy"]
+[gd_scene load_steps=21 format=3 uid="uid://b1tqxqi4ghquy"]
 
 [ext_resource type="PackedScene" uid="uid://gsht45rogopp" path="res://scenes/Player.tscn.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://bloycovvtwcg3" path="res://scripts/main.gd" id="1_r0du0"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dlv8hu7obatgb" path="res://scripts/water_source.gd" id="6_3dxm6"]
 [ext_resource type="Script" uid="uid://dpt7bw0h3m20k" path="res://scripts/food_source.gd" id="7_lgr22"]
 [ext_resource type="PackedScene" uid="uid://cvgbo01nl2csf" path="res://tree.tscn" id="8_trn2v"]
+[ext_resource type="Script" uid="uid://bbpv0lcrosyhc" path="res://scripts/world/wind.gd" id="9_2e3sl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgr22"]
 albedo_color = Color(0.9466565, 0.9999998, 0.9998242, 1)
@@ -76,6 +77,9 @@ environment = SubResource("Environment_glv2v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="HUD" parent="." instance=ExtResource("2_uu6xs")]
+
+[node name="Wind" type="Node" parent="."]
+script = ExtResource("9_2e3sl")
 
 [node name="Campfire" type="Node3D" parent="."]
 script = ExtResource("5_fos0i")

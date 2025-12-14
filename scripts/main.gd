@@ -7,10 +7,16 @@ extends Node3D
 # Игрок и HUD
 @onready var player: Node3D = $Player
 @onready var hud            = $HUD
+@onready var wind           = $Wind
 
 # Параметры цикла день/ночь
 @export var day_length: float = 120.0  # длительность "суток" в секундах
 var time_of_day: float = 0.25          # 0..1 (0 - рассвет, 0.5 - день, ~0.75 - ночь)
+
+
+func _ready() -> void:
+        if hud != null:
+                hud.set_wind_source(wind)
 
 func _process(delta: float) -> void:
 	# Обновляем день/ночь
