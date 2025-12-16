@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://game/vfx/blizzard/blizzard.gd" id="1_f0m8b"]
+[ext_resource type="Texture2D" path="res://assets/3d/textures/vfx/snowflake.png" id="2_tex"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blizzard"]
+transparency = 1
+shading_mode = 0
+billboard_mode = 3
+albedo_color = Color(1, 1, 1, 0.9)
+albedo_texture = ExtResource("2_tex")
+flags_transparent = true
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_blizzard"]
+size = Vector2(0.12, 0.12)
+material = SubResource("StandardMaterial3D_blizzard")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blizzard"]
+emission_shape = 1
+emission_sphere_radius = 36.0
+gravity = Vector3(0, -2.2, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 12.0
+angle_min = -18.0
+angle_max = 18.0
+scale_min = 0.35
+scale_max = 0.95
+linear_accel_min = -1.0
+linear_accel_max = 0.6
+collision_enabled = false
+
+[node name="BlizzardFX" type="GPUParticles3D"]
+script = ExtResource("1_f0m8b")
+amount = 1400
+lifetime = 6.0
+preprocess = 2.0
+randomness = 0.45
+visibility_aabb = AABB(-60, -10, -60, 120, 50, 120)
+process_material = SubResource("ParticleProcessMaterial_blizzard")
+draw_pass_1 = SubResource("QuadMesh_blizzard")
+texture = ExtResource("2_tex")
+height_offset = 8.0
+emitting = false

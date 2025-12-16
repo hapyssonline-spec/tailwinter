@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmw7ca5ly1ui8"]
+
+[ext_resource type="PackedScene" uid="uid://da4jvyp6dtg8u" path="res://game/actors/player/hands/PSX_First_Person_Arms.fbx" id="1_fbx"]
+[ext_resource type="Script" uid="uid://cxtkllitoj7f4" path="res://game/actors/player/hands/hands_fp.gd" id="2_script"]
+
+[node name="HandsFP" type="Node3D"]
+transform = Transform3D(-1.65, 0, 0, 0, 1.65, 0, 0, 0, -1.65, 0.048456192, -2.871483, 0.025844455)
+script = ExtResource("2_script")
+
+[node name="Model" parent="." instance=ExtResource("1_fbx")]

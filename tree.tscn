@@ -1,23 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvgbo01nl2csf"]
+[gd_scene load_steps=2 format=3 uid="uid://catgan4kyqqyn"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uc1xx"]
-albedo_color = Color(0.41759145, 0.23183435, 0.17173252, 1)
+[ext_resource type="PackedScene" path="res://game/props/vegetation/tree/tree.tscn" id="1"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_brfkd"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnvrw"]
-albedo_color = Color(0.19742343, 0.40662932, 0.21740338, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gvmkm"]
-
-[node name="Tree" type="Node3D"]
-
-[node name="trunk" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 1.1, 0, 0, 0, 0.2, 0, 1, 0)
-material_override = SubResource("StandardMaterial3D_uc1xx")
-mesh = SubResource("CylinderMesh_brfkd")
-
-[node name="Crown" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0, 2, 0)
-material_override = SubResource("StandardMaterial3D_nnvrw")
-mesh = SubResource("CylinderMesh_gvmkm")
+[node name="Tree" instance=ExtResource("1")]

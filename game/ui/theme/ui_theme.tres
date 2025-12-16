@@ -1,0 +1,68 @@
+[gd_resource type="Theme" load_steps=6 format=3]
+
+[sub_resource type="StyleBoxFlat" id="panel_bg"]
+bg_color = Color(0.12, 0.16, 0.2, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.35, 0.18, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="slot_bg"]
+bg_color = Color(0.1, 0.14, 0.18, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.45, 0.25, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="progress_bg"]
+bg_color = Color(0.08, 0.12, 0.16, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="progress_fill"]
+bg_color = Color(0.9, 0.58, 0.33, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="button_bg"]
+bg_color = Color(0.16, 0.22, 0.28, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.75, 0.55, 0.3, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+default_font_size = 16
+default_base_scale = 1.0
+colors/font_color = Color(0.9, 0.95, 1, 1)
+colors/font_color_disabled = Color(0.6, 0.65, 0.7, 1)
+colors/font_color_hover = Color(1, 0.9, 0.75, 1)
+colors/font_color_pressed = Color(1, 0.85, 0.65, 1)
+styles/panel = SubResource("panel_bg")
+styles/panel_h = SubResource("panel_bg")
+styles/panel_v = SubResource("panel_bg")
+styles/progressbar_bg = SubResource("progress_bg")
+styles/progressbar_fg = SubResource("progress_fill")
+styles/button_normal = SubResource("button_bg")
+styles/button_hover = SubResource("button_bg")
+styles/button_pressed = SubResource("button_bg")
+styles/slot = SubResource("slot_bg")

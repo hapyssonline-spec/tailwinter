@@ -1,3 +1,16 @@
-# Godot 4+ specific ignores
+# Godot-specific
 .godot/
-/android/
+.import/
+.mono/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build / export
+export_presets.cfg
+*.log
+
+# Local backups
+tailwinter_backup_*

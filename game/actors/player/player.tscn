@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://game/actors/player/player.gd" id="1_uuefa"]
+[ext_resource type="PackedScene" path="res://game/actors/player/hands/hands_fp.tscn" id="4_hands"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.2, 0.35, 0.55, 1)
+metallic = 0.0
+roughness = 0.8
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dqbtj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_head"]
+albedo_color = Color(0.9, 0.82, 0.72, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+size = Vector3(0.7, 0.9, 0.4)
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.28
+height = 0.56
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_limb"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.6
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_uuefa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_dqbtj")
+
+[node name="HeadCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+current = true
+fov = 85.0
+near = 0.05
+far = 800.0
+
+[node name="HandsFP" parent="HeadCamera" instance=ExtResource("4_hands")]

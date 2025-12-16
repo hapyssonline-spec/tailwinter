@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://.godot/imported/stick.fbx-d7312bac9e1ae11c4d05303701283630.scn" id="1_fbx"]
+[ext_resource type="Script" path="res://game/features/survival/sources/resource_pickup.gd" id="2_script"]
+
+[sub_resource type="SphereShape3D" id="1_shape"]
+radius = 0.7
+
+[sub_resource type="StandardMaterial3D" id="2_material"]
+albedo_color = Color(0.231373, 0.14902, 0.105882, 1)
+
+[node name="StickPickup" type="Area3D"]
+script = ExtResource("2_script")
+resource_type = "stick"
+amount = 1
+display_name = "Палка"
+collision_layer = 1
+collision_mask = 1
+monitorable = true
+monitoring = true
+
+[node name="Model" parent="." instance=ExtResource("1_fbx")]
+transform = Transform3D(2, 0, 0, 0, 0, 2, 0, -2, 0, 0, 0, 0)
+material_override = SubResource("2_material")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1_shape")

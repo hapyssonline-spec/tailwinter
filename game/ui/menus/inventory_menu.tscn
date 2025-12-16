@@ -1,0 +1,211 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://game/ui/theme/ui_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://game/ui/menus/inventory_menu.gd" id="2_script"]
+
+[node name="InventoryMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+visible = false
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.2
+anchor_top = 0.15
+anchor_right = 0.8
+anchor_bottom = 0.85
+
+[node name="Layout" type="HBoxContainer" parent="Panel"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+alignment = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Left" type="VBoxContainer" parent="Panel/Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_theme")
+alignment = 0
+separation = 8
+
+[node name="Title" type="Label" parent="Panel/Layout/Left"]
+layout_mode = 2
+text = "Инвентарь"
+horizontal_alignment = 1
+
+[node name="Portrait" type="TextureRect" parent="Panel/Layout/Left"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 140)
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Info" type="RichTextLabel" parent="Panel/Layout/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][color=#ccd5e0]Пусто[/color][/center]"
+fit_content = true
+scroll_active = false
+
+[node name="GridWrap" type="VBoxContainer" parent="Panel/Layout/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+separation = 6
+
+[node name="GridLabel" type="Label" parent="Panel/Layout/Left/GridWrap"]
+layout_mode = 2
+text = "Слоты"
+
+[node name="Grid" type="GridContainer" parent="Panel/Layout/Left/GridWrap"]
+layout_mode = 2
+columns = 5
+theme = ExtResource("1_theme")
+size_flags_vertical = 3
+size_flags_horizontal = 3
+
+[node name="Slot0" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot1" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot2" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot3" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot4" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot5" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot6" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot7" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot8" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot9" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot10" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot11" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot12" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot13" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot14" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot15" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot16" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot17" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot18" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Slot19" type="Button" parent="Panel/Layout/Left/GridWrap/Grid"]
+custom_minimum_size = Vector2(72, 72)
+text = "-"
+
+[node name="Right" type="VBoxContainer" parent="Panel/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_horizontal = 1
+theme = ExtResource("1_theme")
+alignment = 0
+separation = 10
+
+[node name="ActionsTitle" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Действия"
+horizontal_alignment = 1
+
+[node name="WindLabel" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Ветер: —"
+horizontal_alignment = 1
+
+[node name="TemperatureLabel" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Температура: —"
+horizontal_alignment = 1
+
+[node name="FeelsLikeLabel" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Ощущается как: —"
+horizontal_alignment = 1
+
+[node name="PoisonLabel" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Отравление: нет"
+horizontal_alignment = 1
+
+[node name="UseBtn" type="Button" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Использовать"
+
+[node name="DropBtn" type="Button" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "Выбросить"
+
+[node name="CloseHint" type="Label" parent="Panel/Layout/Right"]
+layout_mode = 2
+text = "I / Tab: закрыть"

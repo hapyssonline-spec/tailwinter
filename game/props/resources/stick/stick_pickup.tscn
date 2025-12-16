@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddmbq6scbhrb2"]
+
+[ext_resource type="PackedScene" uid="uid://b408u2rwy3j1a" path="res://assets/3d/models/_source/stick/source/stick.fbx" id="1_fbx"]
+[ext_resource type="Script" uid="uid://b0hhu2dwsi4ih" path="res://game/features/survival/sources/resource_pickup.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://bnw58bc8sgop1" path="res://game/props/resources/stick/stick_material.gd" id="4_script"]
+
+[sub_resource type="SphereShape3D" id="1_shape"]
+radius = 0.7
+
+[node name="StickPickup" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304538, 0, -0.07854092)
+script = ExtResource("2_script")
+resource_type = "stick"
+
+[node name="Model" parent="." instance=ExtResource("1_fbx")]
+transform = Transform3D(2, 0, 0, 0, 0, 2, 0, -2, 0, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1_shape")
+
+[node name="MaterialSetter" type="Node3D" parent="."]
+script = ExtResource("4_script")

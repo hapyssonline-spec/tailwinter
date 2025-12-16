@@ -1,0 +1,133 @@
+[gd_scene load_steps=22 format=3 uid="uid://ycu72k6k4kpa"]
+
+[ext_resource type="PackedScene" path="res://game/actors/player/player.tscn" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://8muey5n5heb8" path="res://game/world/world.gd" id="1_r0du0"]
+[ext_resource type="Script" uid="uid://ukttx03sinry" path="res://game/actors/player/camera/third_person_camera.gd" id="2_cm0pq"]
+[ext_resource type="PackedScene" path="res://game/ui/hud/hud.tscn" id="2_uu6xs"]
+[ext_resource type="Script" uid="uid://cog86bvjdn3wk" path="res://game/features/survival/campfire/campfire.gd" id="5_fos0i"]
+[ext_resource type="PackedScene" uid="uid://dxrrlgg7376ub" path="res://game/props/vegetation/tree/tree.tscn" id="8_trn2v"]
+[ext_resource type="Script" uid="uid://c3s7uolf7hqvv" path="res://game/world/levels/main/terrain/terrain.gd" id="10_terrain"]
+[ext_resource type="Texture2D" uid="uid://cvgguhfh8da7x" path="res://assets/3d/materials/snow/snow_material_0.jpg" id="11_snow_albedo"]
+[ext_resource type="Texture2D" uid="uid://t6iyssv4soa7" path="res://assets/3d/materials/snow/snow_material_2.png" id="12_snow_normal"]
+[ext_resource type="Texture2D" uid="uid://bgvwmbexu4b60" path="res://assets/3d/materials/snow/snow_material_1.png" id="13_snow_roughness"]
+[ext_resource type="PackedScene" uid="uid://bs6jk53rdy1dd" path="res://assets/3d/models/_source/campfire/source/Sketchfab_2022_05_25_13_17_40.blend" id="16_campfire_model"]
+[ext_resource type="Texture2D" uid="uid://dg4v4imdw1ycw" path="res://assets/3d/models/_source/campfire/textures/Colour_pallete.png" id="17_campfire_tex"]
+[ext_resource type="PackedScene" path="res://game/vfx/blizzard/blizzard.tscn" id="18_blizzard_fx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgr22"]
+albedo_texture = ExtResource("11_snow_albedo")
+roughness_texture = ExtResource("13_snow_roughness")
+normal_enabled = true
+normal_texture = ExtResource("12_snow_normal")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lgr22"]
+sky_top_color = Color(0.66348237, 0.72270095, 0.80195594, 1)
+sky_horizon_color = Color(0.5894154, 0.59768975, 0.61424273, 1)
+ground_horizon_color = Color(0.7868001, 0.7923599, 0.8034725, 1)
+
+[sub_resource type="Sky" id="Sky_trn2v"]
+sky_material = SubResource("ProceduralSkyMaterial_lgr22")
+
+[sub_resource type="Environment" id="Environment_glv2v"]
+background_mode = 2
+sky = SubResource("Sky_trn2v")
+ambient_light_source = 3
+ambient_light_energy = 0.4
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.6893567, 0.8708547, 0.9613218, 1)
+fog_density = 0.03
+fog_depth_begin = 20.0
+fog_depth_end = 150.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fire"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.65, 0.35, 0.8)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fire"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.5
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+gravity = Vector3(0, -4, 0)
+scale_min = 0.4
+scale_max = 0.8
+color = Color(1, 0.65, 0.35, 0.8)
+
+[sub_resource type="QuadMesh" id="QuadMesh_fire"]
+size = Vector2(0.2, 0.4)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fos0i"]
+radius = 3.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_r0du0")
+tree_scene = ExtResource("8_trn2v")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+script = ExtResource("10_terrain")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+material_override = SubResource("StandardMaterial3D_lgr22")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, -0.7071068, 0, 0.7071068, 0.7071068, 12.331646, 20.727522, 13.692282)
+light_color = Color(1, 0.84598386, 0.7679135, 1)
+light_energy = 1.5
+
+[node name="MainCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 8, 15)
+current = true
+script = ExtResource("2_cm0pq")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_glv2v")
+
+[node name="Player" parent="." instance=ExtResource("1_glv2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.028749436, 2.215139, 0.8607837)
+
+[node name="HUD" parent="." instance=ExtResource("2_uu6xs")]
+
+[node name="BlizzardFX" parent="." instance=ExtResource("18_blizzard_fx")]
+follow_target_path = NodePath("../Player")
+
+[node name="Campfire" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -6.1088486)
+script = ExtResource("5_fos0i")
+override_albedo = ExtResource("17_campfire_tex")
+
+[node name="Light" type="OmniLight3D" parent="Campfire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(1, 0.75, 0.55, 1)
+light_energy = 2.5
+
+[node name="Model" parent="Campfire" instance=ExtResource("16_campfire_model")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="Particles" type="GPUParticles3D" parent="Campfire"]
+material_override = SubResource("StandardMaterial3D_fire")
+amount = 40
+lifetime = 1.8
+preprocess = 0.2
+randomness = 0.4
+visibility_aabb = AABB(-2, 0, -2, 4, 4, 4)
+process_material = SubResource("ParticleProcessMaterial_fire")
+draw_pass_1 = SubResource("QuadMesh_fire")
+
+[node name="WarmArea" type="Area3D" parent="Campfire"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Campfire/WarmArea"]
+shape = SubResource("CylinderShape3D_fos0i")
+
+[connection signal="body_entered" from="Campfire/WarmArea" to="Campfire" method="_on_warm_area_body_entered"]
+[connection signal="body_exited" from="Campfire/WarmArea" to="Campfire" method="_on_warm_area_body_exited"]

@@ -1,0 +1,218 @@
+
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Theme" path="res://game/ui/theme/ui_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://game/ui/hud/hud.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://game/ui/menus/inventory_menu.tscn" id="3_inventory"]
+[ext_resource type="PackedScene" path="res://game/ui/menus/campfire_menu.tscn" id="4_campfire"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("2_script")
+theme = ExtResource("1_theme")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+
+[node name="TopLeftPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 260.0
+offset_bottom = 220.0
+
+[node name="Stats" type="VBoxContainer" parent="Root/TopLeftPanel"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+separation = 6
+
+[node name="HPRow" type="HBoxContainer" parent="Root/TopLeftPanel/Stats"]
+layout_mode = 2
+separation = 6
+
+[node name="HPLabel" type="Label" parent="Root/TopLeftPanel/Stats/HPRow"]
+layout_mode = 2
+text = "HP"
+size_flags_horizontal = 1
+
+[node name="HPBar" type="ProgressBar" parent="Root/TopLeftPanel/Stats/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="HPValue" type="Label" parent="Root/TopLeftPanel/Stats/HPRow"]
+layout_mode = 2
+text = "100%"
+
+[node name="BodyTempRow" type="HBoxContainer" parent="Root/TopLeftPanel/Stats"]
+layout_mode = 2
+separation = 6
+
+[node name="BodyTempLabel" type="Label" parent="Root/TopLeftPanel/Stats/BodyTempRow"]
+layout_mode = 2
+text = "Темп."
+size_flags_horizontal = 1
+
+[node name="BodyTempBar" type="ProgressBar" parent="Root/TopLeftPanel/Stats/BodyTempRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="BodyTempValue" type="Label" parent="Root/TopLeftPanel/Stats/BodyTempRow"]
+layout_mode = 2
+text = "100%"
+
+[node name="HungerRow" type="HBoxContainer" parent="Root/TopLeftPanel/Stats"]
+layout_mode = 2
+separation = 6
+
+[node name="HungerLabel" type="Label" parent="Root/TopLeftPanel/Stats/HungerRow"]
+layout_mode = 2
+text = "Голод"
+size_flags_horizontal = 1
+
+[node name="HungerBar" type="ProgressBar" parent="Root/TopLeftPanel/Stats/HungerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="HungerValue" type="Label" parent="Root/TopLeftPanel/Stats/HungerRow"]
+layout_mode = 2
+text = "100%"
+
+[node name="ThirstRow" type="HBoxContainer" parent="Root/TopLeftPanel/Stats"]
+layout_mode = 2
+separation = 6
+
+[node name="ThirstLabel" type="Label" parent="Root/TopLeftPanel/Stats/ThirstRow"]
+layout_mode = 2
+text = "Жажда"
+size_flags_horizontal = 1
+
+[node name="ThirstBar" type="ProgressBar" parent="Root/TopLeftPanel/Stats/ThirstRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="ThirstValue" type="Label" parent="Root/TopLeftPanel/Stats/ThirstRow"]
+layout_mode = 2
+text = "100%"
+
+[node name="StaminaRow" type="HBoxContainer" parent="Root/TopLeftPanel/Stats"]
+layout_mode = 2
+separation = 6
+
+[node name="StaminaLabel" type="Label" parent="Root/TopLeftPanel/Stats/StaminaRow"]
+layout_mode = 2
+text = "Вынос."
+size_flags_horizontal = 1
+
+[node name="StaminaBar" type="ProgressBar" parent="Root/TopLeftPanel/Stats/StaminaRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+
+[node name="StaminaValue" type="Label" parent="Root/TopLeftPanel/Stats/StaminaRow"]
+layout_mode = 2
+text = "100%"
+
+[node name="BottomCenterHotbar" type="HBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -110.0
+offset_right = 200.0
+offset_bottom = -60.0
+theme = ExtResource("1_theme")
+alignment = 1
+separation = 8
+
+[node name="SlotA" type="PanelContainer" parent="Root/BottomCenterHotbar"]
+custom_minimum_size = Vector2(64, 64)
+
+[node name="SlotB" type="PanelContainer" parent="Root/BottomCenterHotbar"]
+custom_minimum_size = Vector2(64, 64)
+
+[node name="SlotC" type="PanelContainer" parent="Root/BottomCenterHotbar"]
+custom_minimum_size = Vector2(64, 64)
+
+[node name="SlotD" type="PanelContainer" parent="Root/BottomCenterHotbar"]
+custom_minimum_size = Vector2(64, 64)
+
+[node name="SlotE" type="PanelContainer" parent="Root/BottomCenterHotbar"]
+custom_minimum_size = Vector2(64, 64)
+
+[node name="Hint" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 320.0
+offset_bottom = -40.0
+text = "E: взаимодействие   |   T: ловушка"
+
+[node name="Toast" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 9
+anchor_left = 0.25
+anchor_top = 0.05
+anchor_right = 0.75
+anchor_bottom = 0.05
+offset_top = 10.0
+offset_bottom = 40.0
+horizontal_alignment = 1
+text = ""
+
+[node name="ToastTimer" type="Timer" parent="Root"]
+wait_time = 2.0
+one_shot = true
+
+[node name="InteractHint" type="Label" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 160.0
+offset_right = 150.0
+offset_bottom = 190.0
+horizontal_alignment = 1
+modulate = Color(1, 1, 1, 0.35)
+visible = false
+
+[node name="InventoryMenu" parent="Root" instance=ExtResource("3_inventory")]
+
+[node name="CampfireMenu" parent="Root" instance=ExtResource("4_campfire")]
