@@ -17,17 +17,22 @@ extends CanvasLayer
 @onready var _stamina_value: Label = $Root/TopLeftPanel/Stats/StaminaRow/StaminaValue
 @onready var _interact_hint: Label = $Root/InteractHint
 @onready var _campfire_menu: Control = $Root/CampfireMenu
+@onready var _pause_menu: Control = $Root/PauseMenu
 
 var player: Node
 var _inventory: InventoryData
 var _stats_timer: float = 0.0
+var _pause_active: bool = false
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("hud")
 	_ensure_actions()
 	if _campfire_menu and _campfire_menu.has_method("close_menu"):
 		_campfire_menu.call("close_menu")
+	if _pause_menu and _pause_menu.has_signal("resume_requested"):
+		_pause_menu.resume_requested.connect(_close_pause_menu)
 	_toast_timer.timeout.connect(_on_toast_timeout)
 	_find_player()
 	if _inventory_menu and _inventory_menu.has_method("set_inventory"):
@@ -41,6 +46,7 @@ func _process(delta: float) -> void:
 		_stats_timer = 0.0
 		_update_from_player()
 	_handle_toggle_inventory()
+	_handle_toggle_pause()
 
 
 func update_stats(stats) -> void:
@@ -77,6 +83,10 @@ func _hide_toast() -> void:
 func _handle_toggle_inventory() -> void:
 	if not Input.is_action_just_pressed("toggle_inventory"):
 		return
+	if _pause_active:
+		return
+	if get_tree().paused:
+		return
 	if _inventory_menu == null:
 		return
 	if _inventory_menu.visible:
@@ -85,7 +95,19 @@ func _handle_toggle_inventory() -> void:
 		_open_inventory()
 
 
+func _handle_toggle_pause() -> void:
+	if not Input.is_action_just_pressed("pause_menu"):
+		return
+	if _pause_active:
+		_close_pause_menu()
+	else:
+		_close_inventory()
+		_open_pause_menu()
+
+
 func _open_inventory() -> void:
+	if _pause_active:
+		return
 	if _inventory_menu.has_method("open_menu"):
 		_inventory_menu.call("open_menu")
 	else:
@@ -102,6 +124,24 @@ func _close_inventory() -> void:
 		_inventory_menu.visible = false
 	if player and player.has_method("set_ui_blocked"):
 		player.call("set_ui_blocked", false)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _open_pause_menu() -> void:
+	if _pause_menu == null:
+		return
+	_pause_active = true
+	get_tree().paused = true
+	_pause_menu.call("open_menu")
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+func _close_pause_menu() -> void:
+	if _pause_menu == null:
+		return
+	_pause_active = false
+	_pause_menu.call("close_menu")
+	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -199,6 +239,11 @@ func _ensure_actions() -> void:
 		var ev_tab := InputEventKey.new()
 		ev_tab.physical_keycode = KEY_TAB
 		InputMap.action_add_event("toggle_inventory", ev_tab)
+	if not InputMap.has_action("pause_menu"):
+		InputMap.add_action("pause_menu")
+		var ev_esc := InputEventKey.new()
+		ev_esc.physical_keycode = KEY_ESCAPE
+		InputMap.action_add_event("pause_menu", ev_esc)
 
 
 func set_interact_hint(text: String) -> void:

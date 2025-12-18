@@ -93,8 +93,13 @@ var _debug_wireframe: WorldEnvironment
 var _debug_collision_visible: bool = false
 var _debug_fps: float = 0.0
 var _debug_update_timer: float = 0.0
+var _limit_blizzard_emitters: bool = false
+var _sleep_distant_fauna: bool = false
 var _wind_speed_cache: float = 0.0
 var _wind_dir_cache: Vector3 = Vector3.ZERO
+var _wind_penalty_cache: float = 0.0
+var _campfire_heat_cache: float = 0.0
+var _feels_like_cache: float = 0.0
 var _ambient_temp_c: float = -20.0
 var _target_temp_c: float = -20.0
 var _temp_timer: float = 0.0
@@ -111,6 +116,7 @@ func _process(delta: float) -> void:
 	_update_weather(delta)
 	_update_day_night(delta)
 	_update_temperature(delta)
+	_update_feels_like(delta)
 	if _debug_enabled:
 		_debug_update_timer += delta
 		if _debug_update_timer >= 0.25:
@@ -122,6 +128,7 @@ func _process(delta: float) -> void:
 		hud.update_stats(player.stats)
 		if "inventory" in player and hud.has_method("update_inventory"):
 			hud.update_inventory(player.inventory)
+
 
 
 func _get_height(x: float, z: float) -> float:
@@ -666,13 +673,6 @@ func _apply_wind_to_player(speed: float, dir: Vector3) -> void:
 	if player.has_method("set_wind_state"):
 		player.call("set_wind_state", speed, dir)
 
-	if player != null and "stats" in player:
-		var stats_obj = player.stats
-		if stats_obj != null:
-			var extra := pow(speed / 75.0, 2.0) * warm_wind_extra_max
-			if stats_obj.has_method("set_wind_chill"):
-				stats_obj.set_wind_chill(extra)
-
 
 func _apply_wind_to_campfire(speed: float) -> void:
 	if campfire == null or not is_instance_valid(campfire):
@@ -688,8 +688,53 @@ func get_air_temperature_c() -> float:
 
 
 func get_feels_like_temperature_c() -> float:
+	return _feels_like_cache
+
+
+func get_wind_penalty_c() -> float:
+	return _wind_penalty_cache
+
+
+func get_campfire_heat_c() -> float:
+	return _campfire_heat_cache
+
+
+func _update_feels_like(delta: float) -> void:
 	var wind_penalty: float = clamp(_wind_speed_cache / 32.0, 0.0, 1.0) * 15.0
-	return _ambient_temp_c - wind_penalty
+	_wind_penalty_cache = wind_penalty
+
+	var campfire_bonus: float = 0.0
+	if campfire != null and is_instance_valid(campfire) and campfire.has_method("get_heat_for_player") and player != null:
+		campfire_bonus = float(campfire.call("get_heat_for_player", player))
+	_campfire_heat_cache = campfire_bonus
+
+	var feels_like := _ambient_temp_c - wind_penalty + campfire_bonus
+	_feels_like_cache = feels_like
+
+	_apply_temperature_to_player(feels_like, delta)
+
+
+func _apply_temperature_to_player(feels_like: float, delta: float) -> void:
+	if player == null or not is_instance_valid(player):
+		return
+	if not ("stats" in player):
+		return
+	var stats_obj = player.stats
+	if stats_obj == null:
+		return
+
+	var extra_decay: float = 0.0
+	if feels_like < 0.0:
+		extra_decay = clamp(-feels_like * 0.05, 0.0, 6.0)
+	if stats_obj.has_method("set_wind_chill"):
+		stats_obj.set_wind_chill(extra_decay)
+
+	if feels_like > 0.0 and stats_obj.has_method("restore_body_temperature"):
+		# Если "ощущается как" выше нуля, постепенно согреваем сильнее:
+		# при +15°C даём заметное восстановление, при более высоких — сильнее.
+		var effective: float = max(feels_like, 0.0)
+		var restore_rate: float = effective * 0.2  # +15°C => ~3 ед/сек
+		stats_obj.restore_body_temperature(restore_rate * delta)
 
 
 func _nudge_wind_speed(delta_speed: float) -> void:
@@ -857,3 +902,33 @@ func _ensure_debug_actions() -> void:
 			var ev := InputEventKey.new()
 			ev.physical_keycode = actions[action_name]
 			InputMap.action_add_event(action_name, ev)
+
+
+func apply_performance_settings(settings: Dictionary) -> void:
+	_limit_blizzard_emitters = bool(settings.get("limit_blizzard_emitters", _limit_blizzard_emitters))
+	_sleep_distant_fauna = bool(settings.get("sleep_distant_fauna", _sleep_distant_fauna))
+	# TODO: связать эти флаги с реальным LOD/эмиттерами и снами кроликов/декора, когда оптимизация будет внедрена.
+
+
+func apply_display_settings(settings: Dictionary) -> void:
+	var vsync_on := bool(settings.get("vsync", true))
+	if vsync_on:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+	var fps_limit := int(settings.get("fps_limit", 0))
+	Engine.max_fps = max(fps_limit, 0)
+
+	var fullscreen := bool(settings.get("fullscreen", false))
+	if fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+	var res: Vector2i = DisplayServer.window_get_size()
+	var res_value: Variant = settings.get("resolution", res)
+	if res_value is Vector2i:
+		res = res_value
+	if not fullscreen:
+		DisplayServer.window_set_size(res)

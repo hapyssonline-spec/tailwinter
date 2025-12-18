@@ -169,6 +169,14 @@ func _update_temperature_labels() -> void:
 		feels = float(world_node.call("get_feels_like_temperature_c"))
 	temperature_label.text = "Температура: %.1f°C" % temp
 	feels_like_label.text = "Ощущается как: %.1f°C" % feels
+	var wind_pen: float = 0.0
+	if world_node.has_method("get_wind_penalty_c"):
+		wind_pen = float(world_node.call("get_wind_penalty_c"))
+	var campfire_heat: float = 0.0
+	if world_node.has_method("get_campfire_heat_c"):
+		campfire_heat = float(world_node.call("get_campfire_heat_c"))
+	var tooltip := "Погода: %.1f°C\nВетер: -%.1f°C\nКостер: +%.1f°C" % [temp, wind_pen, campfire_heat]
+	feels_like_label.tooltip_text = tooltip
 
 
 func _update_status_effects() -> void:

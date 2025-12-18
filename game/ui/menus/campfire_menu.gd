@@ -54,6 +54,10 @@ func _update_status() -> void:
 		status_label.text = ""
 		return
 	var line := ""
+	if campfire.has_method("get_heat_c"):
+		line += "Температура костра: %.0f°C. " % float(campfire.call("get_heat_c"))
+	if campfire.has_method("get_burn_time_left"):
+		line += "Горение: %.0f с. " % float(campfire.call("get_burn_time_left"))
 	if campfire.get("cooking_ready") > 0.01:
 		line += "Готово мяса: %.2f кг. " % campfire.get("cooking_ready")
 	if campfire.get("cooking_weight") > 0.01:

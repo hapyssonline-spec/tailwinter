@@ -1,10 +1,12 @@
-
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Theme" path="res://game/ui/theme/ui_theme.tres" id="1_theme"]
 [ext_resource type="Script" path="res://game/ui/hud/hud.gd" id="2_script"]
 [ext_resource type="PackedScene" path="res://game/ui/menus/inventory_menu.tscn" id="3_inventory"]
 [ext_resource type="PackedScene" path="res://game/ui/menus/campfire_menu.tscn" id="4_campfire"]
+[ext_resource type="PackedScene" path="res://game/ui/menus/pause_menu.tscn" id="5_pause"]
+[ext_resource type="Script" path="res://scripts/ui/frost_overlay.gd" id="6_frost_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/fx/frost_overlay.png" id="7_frost_tex"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("2_script")
@@ -216,3 +218,22 @@ visible = false
 [node name="InventoryMenu" parent="Root" instance=ExtResource("3_inventory")]
 
 [node name="CampfireMenu" parent="Root" instance=ExtResource("4_campfire")]
+
+[node name="PauseMenu" parent="Root" instance=ExtResource("5_pause")]
+
+[node name="FrostLayer" type="CanvasLayer" parent="."]
+layer = 5
+script = ExtResource("6_frost_script")
+
+[node name="FrostOverlay" type="TextureRect" parent="FrostLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+expand_mode = 2
+stretch_mode = 0
+texture_filter = 1
+texture_repeat = 0
+texture = ExtResource("7_frost_tex")
+modulate = Color(1, 1, 1, 0)

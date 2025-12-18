@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://game/actors/player/player.gd" id="1_uuefa"]
 [ext_resource type="PackedScene" path="res://game/actors/player/hands/hands_fp.tscn" id="4_hands"]
+[ext_resource type="Script" path="res://scripts/vfx/breath_vfx.gd" id="5_breath"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
 albedo_color = Color(0.2, 0.35, 0.55, 1)
@@ -14,6 +15,11 @@ roughness = 0.8
 albedo_color = Color(0.9, 0.82, 0.72, 1)
 roughness = 0.9
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_breath"]
+albedo_color = Color(0.9, 0.95, 1, 0.35)
+transparency = 1
+shading_mode = 1
+
 [sub_resource type="BoxMesh" id="BoxMesh_torso"]
 size = Vector3(0.7, 0.9, 0.4)
 
@@ -25,6 +31,19 @@ height = 0.56
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.6
+
+[sub_resource type="QuadMesh" id="QuadMesh_breath"]
+size = Vector2(0.12, 0.12)
+material = SubResource("StandardMaterial3D_breath")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_breath"]
+gravity = Vector3(0, 0.05, 0)
+initial_velocity = Vector2(0.6, 0.6)
+velocity_random = 0.3
+angle_random = 1.0
+scale_min = 0.8
+scale_max = 1.4
+color = Color(0.9, 0.95, 1, 0.3)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_uuefa")
@@ -40,3 +59,17 @@ near = 0.05
 far = 800.0
 
 [node name="HandsFP" parent="HeadCamera" instance=ExtResource("4_hands")]
+
+[node name="BreathParticles" type="Node3D" parent="HeadCamera"]
+script = ExtResource("5_breath")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.15)
+
+[node name="BreathGPUParticles" type="GPUParticles3D" parent="HeadCamera/BreathParticles"]
+amount = 40
+amount_ratio = 1.0
+lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_breath")
+draw_pass_1 = SubResource("QuadMesh_breath")
+billboard_mode = 1
+emitting = false
+randomness = 0.2
